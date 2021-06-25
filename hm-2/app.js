@@ -18,9 +18,13 @@ app.engine('.hbs', expressHbs({
 
 const pathFile = path.join(__dirname, 'db', 'db.json');
 
-app.get('/users', (req, res) => {
+function getAllUsers(){
     const data = fs.readFileSync(pathFile);
-    const allUsers = JSON.parse(data.toString());
+    return JSON.parse(data.toString());
+}
+
+app.get('/users', (req, res) => {
+    const allUsers = getAllUsers();
     res.render('users', {allUsers});
 });
 
@@ -39,8 +43,7 @@ app.get('/error', (req, res) => {
 
 app.get('/users/:userId', (req, res) => {
     const {userId} = req.params;
-    const data = fs.readFileSync(pathFile);
-    const allUsers = JSON.parse(data.toString());
+    const allUsers = getAllUsers();
     const user=allUsers[userId-1]
 
     res.render('user', {user});
@@ -48,8 +51,7 @@ app.get('/users/:userId', (req, res) => {
 
 app.post('/register', (req, res) => {
     const {email} = req.body;
-    const data = fs.readFileSync(pathFile);
-    const allUsers = JSON.parse(data.toString());
+    const allUsers = getAllUsers();
     const flag = allUsers.some((value => value.email === email));
 
     if (flag) {
@@ -70,8 +72,7 @@ app.post('/register', (req, res) => {
 
 app.post('/login', (req, res) => {
     const {email, password} = req.body;
-    const data = fs.readFileSync(pathFile);
-    const allUsers = JSON.parse(data.toString());
+    const allUsers = getAllUsers();
     const user = allUsers.find((value => value.email === email && value.password === password));
 
     let id=(allUsers.indexOf(user)+1);
