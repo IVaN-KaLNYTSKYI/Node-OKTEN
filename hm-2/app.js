@@ -44,7 +44,7 @@ app.get('/error', (req, res) => {
 app.get('/users/:userId', (req, res) => {
     const {userId} = req.params;
     const allUsers = getAllUsers();
-    const user=allUsers[userId-1]
+    const user=allUsers[userId-1];
 
     res.render('user', {user});
 });
