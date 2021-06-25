@@ -16,9 +16,8 @@ app.engine('.hbs', expressHbs({
     defaultLayout: false
 }));
 
-const pathFile = path.join(__dirname, 'db', 'db.json');
-
 function getAllUsers(){
+    const pathFile = path.join(__dirname, 'db', 'db.json');
     const data = fs.readFileSync(pathFile);
     return JSON.parse(data.toString());
 }
@@ -65,7 +64,7 @@ app.post('/register', (req, res) => {
     })
     users.push(req.body);
 
-    fs.writeFile(pathFile, JSON.stringify(users), (err => err && console.log(err)));
+    fs.writeFile(path.join(__dirname, 'db', 'db.json'), JSON.stringify(users), (err => err && console.log(err)));
 
     res.redirect('/login');
 });
