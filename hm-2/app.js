@@ -41,7 +41,7 @@ app.get('/users/:userId', (req, res) => {
     const {userId} = req.params;
     const data = fs.readFileSync(pathFile);
     const allUsers = JSON.parse(data.toString());
-    const user = allUsers.find((value => value.email === userId));
+    const user=allUsers[userId-1]
 
     res.render('user', {user});
 });
@@ -74,8 +74,11 @@ app.post('/login', (req, res) => {
     const allUsers = JSON.parse(data.toString());
     const user = allUsers.find((value => value.email === email && value.password === password));
 
+    let id=(allUsers.indexOf(user)+1);
+    console.log(id)
+
     if (user) {
-        res.redirect(`/users/${user.email}`);
+        res.redirect(`/users/${id}`);
         return;
     }
 
@@ -84,6 +87,6 @@ app.post('/login', (req, res) => {
 });
 
 app.listen(5000, () => {
-    console.log("3000");
+    console.log("5000");
 });
 
