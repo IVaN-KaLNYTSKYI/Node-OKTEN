@@ -5,5 +5,6 @@ module.exports = {
     USER_IS_CREATED: 'User is Created!',
     USER_WAS_DELETED: 'User deleted',
     USER_WAS_UPDATE: 'User update',
-    NOT_VALID_ID: 'Not valid id'
+    NOT_VALID_ID: 'Not valid id',
+    NOT_EXISTS: 'Such a user already exists'
 };

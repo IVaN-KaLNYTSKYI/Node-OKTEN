@@ -22,6 +22,8 @@ module.exports = {
     isUserValid: (req, res, next) => {
         const { name, password } = req.body;
 
+        const users = userService.findUsers();
+
         if (!name || !password) {
             throw new Error(errorMessages.SOME_FIELD_IS_EMPTY);
         }
@@ -29,6 +31,12 @@ module.exports = {
         if (password.length < 8) {
             throw new Error(errorMessages.PASSWORD_SMALL);
         }
+
+        users.forEach((value) => {
+            if (value.name === name) {
+                throw new Error(errorMessages.NOT_EXISTS);
+            }
+        });
 
         next();
     },
