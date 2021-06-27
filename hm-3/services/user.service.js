@@ -11,8 +11,8 @@ const getAllUsers = () => {
     return users;
 };
 
-const writeUser = (user) => {
-    fs.writeFile(pathFile, JSON.stringify(user), ((err) => err && console.log(err)));
+const writeUser = (usersData) => {
+    fs.writeFile(pathFile, JSON.stringify(usersData), ((err) => err && console.log(err)));
 };
 
 module.exports = {
