@@ -31,10 +31,10 @@ module.exports = {
     },
 
     updateUserById: async (req, res) => {
-        const { id } = req.params;
+        const { userId } = req.params;
         const userNewObject = req.body;
 
-        await userService.updateUser(id, userNewObject);
+        await userService.updateUser(userId, userNewObject);
 
         res.json(errorMessages.USER_WAS_UPDATE);
     },

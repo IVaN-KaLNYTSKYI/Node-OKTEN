@@ -26,8 +26,15 @@ module.exports = {
     isUserValid: async (req, res, next) => {
         try {
             const { name, password } = req.body;
+            const { userId } = req.params;
 
             const users = await userService.findUsers();
+
+            if (userId) {
+                if (!users[userId]) {
+                    throw new Error(errorMessages.USER_NOT_FOUND);
+                }
+            }
 
             if (!name || !password) {
                 throw new Error(errorMessages.SOME_FIELD_IS_EMPTY);
@@ -57,35 +64,6 @@ module.exports = {
             if (!userById) {
                 throw new Error(errorMessages.USER_NOT_FOUND);
             }
-
-            next();
-        } catch (e) {
-            res.json(e.message);
-        }
-    },
-
-    isUserValidUpdate: async (req, res, next) => {
-        try {
-            const { name, password } = req.body;
-
-            const users = await userService.findUsers();
-
-            if (!users[req.params.id]) {
-                throw new Error(errorMessages.USER_NOT_FOUND);
-            }
-            if (!name || !password) {
-                throw new Error(errorMessages.SOME_FIELD_IS_EMPTY);
-            }
-
-            if (password.length < 8) {
-                throw new Error(errorMessages.PASSWORD_SMALL);
-            }
-
-            users.forEach((value) => {
-                if (value.name === name) {
-                    throw new Error(errorMessages.NOT_EXISTS);
-                }
-            });
 
             next();
         } catch (e) {

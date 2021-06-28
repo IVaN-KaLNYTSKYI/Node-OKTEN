@@ -16,7 +16,7 @@ module.exports = {
     createUser: async (userObject) => {
         const allUsers = await getAllUsers();
 
-        allUsers.push(userObject);
+        allUsers.push({ id: allUsers.length + 1, ...userObject });
 
         await write(pathFile, JSON.stringify(allUsers));
     },
