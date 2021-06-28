@@ -24,15 +24,19 @@ module.exports = {
     findOneById: async (userId) => {
         const allUsers = await getAllUsers();
 
-        return allUsers[userId];
+        const user = allUsers.find((value) => (value.id === +userId));
+
+        return user;
     },
 
     removeUser: async (userId) => {
         const allUsers = await getAllUsers();
 
-        allUsers.splice(userId, 1);
+        const users = allUsers.filter((value) => (value.id !== +userId));
 
-        await write(pathFile, JSON.stringify(allUsers));
+        // allUsers.splice(userId, 1);
+
+        await write(pathFile, JSON.stringify(users));
     },
 
     updateUser: async (userId, userNewObject) => {
