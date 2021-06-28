@@ -6,7 +6,7 @@ const { userMiddleware } = require('../middlewares');
 router.get('/', userController.getAllUsers);
 router.get('/:userId', userMiddleware.checkIsValid, userController.getUserById);
 router.post('/', userMiddleware.isUserValid, userController.createUsers);
-router.delete('/:userId', userController.removeUserById);
-router.patch('/:id', userMiddleware.isUserValid, userController.updateUserById);
+router.delete('/:userId', userMiddleware.isUserValidId, userController.removeUserById);
+router.patch('/:id', userMiddleware.isUserValidUpdate, userController.updateUserById);
 
 module.exports = router;

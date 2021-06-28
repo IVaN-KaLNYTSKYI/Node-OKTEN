@@ -1,54 +1,46 @@
 const fs = require('fs');
 const path = require('path');
+const utils = require('util');
 
 const pathFile = path.join(process.cwd(), 'dataBase', 'users.json');
 
-let users = [];
+const write = utils.promisify(fs.writeFile);
+const read = utils.promisify(fs.readFile);
 
-const getAllUsers = () => {
-    const data = fs.readFileSync(pathFile);
-    users = JSON.parse(data.toString());
-    return users;
-};
-
-const writeUser = (usersData) => {
-    fs.writeFile(pathFile, JSON.stringify(usersData), ((err) => err && console.log(err)));
-};
+const getAllUsers = () => read('./dataBase/users.json').then((value) => JSON.parse(value.toString()));
 
 module.exports = {
+
     findUsers: () => getAllUsers(),
 
-    createUser: (userObject) => {
-        getAllUsers();
+    createUser: async (userObject) => {
+        const allUsers = await getAllUsers();
 
-        users.push(userObject);
+        allUsers.push(userObject);
 
-        writeUser(users);
+        await write(pathFile, JSON.stringify(allUsers));
     },
 
-    findOneById: (userId) => {
-        getAllUsers();
+    findOneById: async (userId) => {
+        const allUsers = await getAllUsers();
 
-        return users[userId];
+        return allUsers[userId];
     },
 
-    removeUser: (userId) => {
-        getAllUsers();
+    removeUser: async (userId) => {
+        const allUsers = await getAllUsers();
 
-        users.splice(userId, 1);
+        allUsers.splice(userId, 1);
 
-        writeUser(users);
+        await write(pathFile, JSON.stringify(allUsers));
     },
 
-    updateUser: (userId, userNewObject) => {
-        getAllUsers();
+    updateUser: async (userId, userNewObject) => {
+        const allUsers = await getAllUsers();
 
-        users.forEach((value, index) => {
-            if (index === +userId) {
-                users[index] = userNewObject;
-            }
-        });
-        writeUser(users);
+        allUsers[userId] = { ...allUsers[userId], ...userNewObject };
+
+        await write(pathFile, JSON.stringify(allUsers));
     }
 
 };
