@@ -6,12 +6,12 @@ module.exports = Joi.object({
     name: Joi.string()
         .alphanum()
         .trim()
-        .min(2)
-        .max(50),
+        .min(4)
+        .max(30),
     age: Joi.number()
         .integer()
-        .min(0)
-        .max(120),
+        .min(1)
+        .max(110),
     email: Joi.string()
         .regex(regexpEnum.EMAIL_REGEXP)
         .required(),
