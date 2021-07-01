@@ -17,6 +17,10 @@ module.exports = {
     NOT_EXISTS: {
         message: 'Such a user already exists',
         code: 4091
+    },
+    WRONG_EMAIL_OF_PASSWORD: {
+        message: 'WRONG_EMAIL_OF_PASSWORD',
+        code: 4003
     }
 
 };
