@@ -1,25 +1,25 @@
 const router = require('express').Router();
 
 const { userController } = require('../../controllers');
-const { isUserValid, idValid } = require('../../middlewares');
+const { isUserValid } = require('../../middlewares');
 
 router.get('/', userController.getAllUsers);
 
 router.post('/',
-    isUserValid,
+    isUserValid.createMiddleware,
     userController.createUser);
 
 router.get('/:userId',
-    idValid,
+    isUserValid.idMiddleware,
     userController.getUserById);
 
 router.delete('/:userId',
-    idValid,
+    isUserValid.idMiddleware,
     userController.removeUserById);
 
 router.patch('/:userId',
-    idValid,
-    isUserValid,
+    isUserValid.idMiddleware,
+    isUserValid.updateMiddleware,
     userController.updateUser);
 
 module.exports = router;

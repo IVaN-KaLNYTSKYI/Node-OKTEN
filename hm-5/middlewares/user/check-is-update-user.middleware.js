@@ -1,18 +1,18 @@
 const { ErrorHandler } = require('../../errors');
-const { errorMess } = require('../../errors');
-const { userService } = require('../../services');
 const { validatorUser } = require('../../validators');
+const { userService } = require('../../services');
+const { errorMess } = require('../../errors');
 
 module.exports = async (req, res, next) => {
     try {
-        const { userId } = req.params;
+        const { email } = req.body;
 
-        const { error } = await validatorUser.idValidator.validate(req.params.id);
+        const { error } = await validatorUser.updateValidator.validate(req.body);
 
-        const user = await userService.getSingleUser({ _id: userId });
+        const user = await userService.getSingleUser({ email });
 
         if (error) {
-            throw new ErrorHandler(400, errorMess.NOT_VALID_ID.message, errorMess.NOT_VALID_ID.code);
+            throw new ErrorHandler(404, error.details[0].message, errorMess.USER_NOT_FOUND.code);
         }
 
         if (!user) {
