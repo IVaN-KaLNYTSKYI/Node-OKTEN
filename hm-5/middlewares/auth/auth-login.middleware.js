@@ -18,6 +18,9 @@ module.exports = async (req, res, next) => {
         if (!user) {
             throw new ErrorHandler(codesEnum.NOT_FOUND, errorMess.USER_NOT_FOUND.message, errorMess.USER_NOT_FOUND.code);
         }
+
+        req.user = user;
+
         next();
     } catch (e) {
         next(e);
