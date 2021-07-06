@@ -48,7 +48,11 @@ module.exports = {
     },
     updateUser: async (req, res, next) => {
         try {
-            await userService.updateUser(req.params.userId, req.body);
+            const { password } = req.body;
+
+            const hashedPassword = await passwordHasher.hash(password);
+
+            await userService.updateUser(req.params.userId, { ...req.body, password: hashedPassword });
 
             res.json('update');
         } catch (e) {
