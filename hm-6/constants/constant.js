@@ -6,4 +6,6 @@ module.exports = {
     AUTHORIZATION: 'Authorization',
     TIME_ACCESS_TOKEN: '10m',
     TIME_REFRESH_TOKEN: '30d',
+    ACCESS: 'access',
+    REFRESH: 'refresh',
 };

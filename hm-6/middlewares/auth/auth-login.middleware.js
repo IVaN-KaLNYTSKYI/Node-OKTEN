@@ -15,6 +15,12 @@ module.exports = async (req, res, next) => {
             throw new ErrorHandler(codesEnum.NOT_FOUND, error.details[0].message, errorMess.USER_NOT_FOUND.code);
         }
 
+        if (!user) {
+            throw new ErrorHandler(codesEnum.BAD_REQUEST,
+                errorMess.WRONG_EMAIL_OF_PASSWORD.message,
+                errorMess.WRONG_EMAIL_OF_PASSWORD.code);
+        }
+
         req.user = user;
 
         next();

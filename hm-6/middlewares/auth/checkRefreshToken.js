@@ -12,7 +12,7 @@ module.exports = async (req, res, next) => {
             throw new ErrorHandler(codesEnum.BAD_REQUEST, errorMess.NOT_TOKEN.message, errorMess.NOT_TOKEN.code);
         }
 
-        await authHelper.verifyToken(token, 'refresh');
+        await authHelper.verifyToken(token, constants.REFRESH);
 
         const tokenObject = await OAuth.findOne({ refreshToken: token });
 

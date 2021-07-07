@@ -16,8 +16,8 @@ module.exports = {
         };
     },
 
-    verifyToken: async (token, tokenType = 'access') => {
-        const secretWord = tokenType === 'access' ? constants.ACCESS_TOKEN_SECRET : constants.REFRESH_TOKEN_SECRET;
+    verifyToken: async (token, tokenType = constants.ACCESS) => {
+        const secretWord = tokenType === constants.ACCESS ? constants.ACCESS_TOKEN_SECRET : constants.REFRESH_TOKEN_SECRET;
 
         await verifyPromise(token, secretWord);
     }

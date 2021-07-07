@@ -1,7 +1,6 @@
 const { AUTHORIZATION } = require('../constants/constant');
 const { passwordHasher } = require('../helpers');
-const { ErrorHandler } = require('../errors');
-const { errorMess, codesEnum } = require('../errors');
+const { codesEnum } = require('../errors');
 const { authHelper } = require('../helpers');
 const { OAuth } = require('../dataBase');
 
@@ -10,12 +9,6 @@ module.exports = {
         try {
             const { password } = req.body;
             const { user } = req;
-
-            if (!user) {
-                throw new ErrorHandler(codesEnum.BAD_REQUEST,
-                    errorMess.WRONG_EMAIL_OF_PASSWORD.message,
-                    errorMess.WRONG_EMAIL_OF_PASSWORD.code);
-            }
 
             await passwordHasher.compare(password, user.password);
 
