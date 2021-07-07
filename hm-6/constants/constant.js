@@ -4,4 +4,6 @@ module.exports = {
     ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET || 'ewrewfcdsvd',
     REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET || 'EFDVSDVSDWDFSDF',
     AUTHORIZATION: 'Authorization',
+    TIME_ACCESS_TOKEN: '10m',
+    TIME_REFRESH_TOKEN: '30d',
 };

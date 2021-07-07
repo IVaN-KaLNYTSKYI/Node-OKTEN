@@ -7,8 +7,8 @@ const verifyPromise = promisify(jwt.verify);
 
 module.exports = {
     generateToken: () => {
-        const accessToken = jwt.sign({}, constants.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
-        const refreshToken = jwt.sign({}, constants.REFRESH_TOKEN_SECRET, { expiresIn: '30d' });
+        const accessToken = jwt.sign({}, constants.ACCESS_TOKEN_SECRET, { expiresIn: constants.TIME_ACCESS_TOKEN });
+        const refreshToken = jwt.sign({}, constants.REFRESH_TOKEN_SECRET, { expiresIn: constants.TIME_REFRESH_TOKEN });
 
         return {
             accessToken,
