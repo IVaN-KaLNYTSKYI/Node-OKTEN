@@ -7,7 +7,7 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, 'static')));
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, 'static'));
@@ -16,7 +16,7 @@ app.engine('.hbs', expressHbs({
     defaultLayout: false
 }));
 
-function getAllUsers(){
+function getAllUsers() {
     const pathFile = path.join(__dirname, 'db', 'db.json');
     const data = fs.readFileSync(pathFile);
     return JSON.parse(data.toString());
@@ -24,7 +24,7 @@ function getAllUsers(){
 
 app.get('/users', (req, res) => {
     const allUsers = getAllUsers();
-    res.render('users', {allUsers});
+    res.render('users', { allUsers });
 });
 
 app.get('/login', (req, res) => {
@@ -35,23 +35,22 @@ app.get('/register', (req, res) => {
     res.render('register');
 });
 
-
 app.get('/error', (req, res) => {
     res.render('error');
 });
 
 app.get('/users/:userId', (req, res) => {
-    const {userId} = req.params;
+    const { userId } = req.params;
     const allUsers = getAllUsers();
-    const user=allUsers[userId-1];
+    const user = allUsers[userId - 1];
 
-    res.render('user', {user});
+    res.render('user', { user });
 });
 
 app.post('/register', (req, res) => {
-    const {email} = req.body;
+    const { email } = req.body;
     const allUsers = getAllUsers();
-    const flag = allUsers.some((value => value.email === email));
+    const flag = allUsers.some(((value) => value.email === email));
 
     if (flag) {
         res.redirect('/error');
@@ -61,21 +60,21 @@ app.post('/register', (req, res) => {
 
     allUsers.forEach((value1) => {
         users.push(value1);
-    })
+    });
     users.push(req.body);
 
-    fs.writeFile(path.join(__dirname, 'db', 'db.json'), JSON.stringify(users), (err => err && console.log(err)));
+    fs.writeFile(path.join(__dirname, 'db', 'db.json'), JSON.stringify(users), ((err) => err && console.log(err)));
 
     res.redirect('/login');
 });
 
 app.post('/login', (req, res) => {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     const allUsers = getAllUsers();
-    const user = allUsers.find((value => value.email === email && value.password === password));
+    const user = allUsers.find(((value) => value.email === email && value.password === password));
 
-    let id=(allUsers.indexOf(user)+1);
-    console.log(id)
+    const id = (allUsers.indexOf(user) + 1);
+    console.log(id);
 
     if (user) {
         res.redirect(`/users/${id}`);
@@ -83,10 +82,8 @@ app.post('/login', (req, res) => {
     }
 
     res.redirect('/register');
-
 });
 
 app.listen(5000, () => {
-    console.log("5000");
+    console.log('5000');
 });
-
