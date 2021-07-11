@@ -20,5 +20,11 @@ module.exports = {
         const secretWord = tokenType === constants.ACCESS ? constants.ACCESS_TOKEN_SECRET : constants.REFRESH_TOKEN_SECRET;
 
         await verifyPromise(token, secretWord);
+    },
+
+    verifyTokenActivate: async (token) => {
+        const secretWord = constants.ACTIVATE_TOKEN_SECRET;
+
+        await verifyPromise(token, secretWord);
     }
 };

@@ -3,4 +3,6 @@ block content
     div
         | Привіт #{userName}-ви зареєструвалися за допомого Email:#{email}
         br
-        | Дякуємо #{userName} що зареєструвалися!!!!
+        | Будь ласка перейди по силці
+        - let url = 'http://localhost:3000/email/activate?token='
+        a(href=url + token) Clikkk

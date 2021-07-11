@@ -9,5 +9,6 @@ module.exports = {
     ACCESS: 'access',
     REFRESH: 'refresh',
     EMAIL: process.env.EMAIL || 'ivankal@gmail.com',
-    PASSWORD_EMAIL: process.env.PASSWORD_EMAIL || 'EWRWFEFD'
+    PASSWORD_EMAIL: process.env.PASSWORD_EMAIL || 'EWRWFEFD',
+    ACTIVATE_TOKEN_SECRET: process.env.ACTIVATE_TOKEN_SECRET || 'efmefirfmemfregrgergrge'
 };

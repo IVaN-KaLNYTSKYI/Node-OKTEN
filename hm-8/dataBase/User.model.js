@@ -23,7 +23,14 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    activate_token: {
+        type: String
+    },
+    activate_status: {
+        type: String,
+        required: true
+    },
 
 }, { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } });
 

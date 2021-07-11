@@ -24,13 +24,13 @@ module.exports = {
 
     createUser: async (req, res, next) => {
         try {
-            const { body: { password, email, name }, photos } = req;
-            const { avatar } = req;
+            const { user: { password, email, name }, photos, avatar } = req;
+
             const photosArr = [];
 
             const hashedPassword = await passwordHasher.hash(password);
 
-            const createdUser = await userService.createUser({ ...req.body, password: hashedPassword });
+            const createdUser = await userService.createUser({ ...req.user, password: hashedPassword });
 
             const { _id } = createdUser;
 
@@ -54,7 +54,7 @@ module.exports = {
                 await userService.updateUser({ _id }, { $set: { gallery: photosArr } });
             }
 
-            await mailService.sendMail(email, emailActionEnum.WELCOME, { userName: name, email });
+            await mailService.sendMail(email, emailActionEnum.WELCOME, { userName: name, token: createdUser.activate_token });
 
             const normalizedUser = userHelper.userNormalizator(createdUser.toJSON());
 
