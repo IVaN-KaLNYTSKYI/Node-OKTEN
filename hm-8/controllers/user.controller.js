@@ -12,7 +12,7 @@ module.exports = {
             const usersArr = [];
 
             for (let i = 0; i < users.length; i++) {
-                const normalizedUser = userHelper.userNormalizator(users[0]);
+                const normalizedUser = userHelper.userNormalizator(users[i]);
                 usersArr.push(normalizedUser);
             }
 
@@ -24,6 +24,7 @@ module.exports = {
 
     createUser: async (req, res, next) => {
         try {
+            [req.avatar] = req.photos;
             const { user: { password, email, name }, photos, avatar } = req;
 
             const photosArr = [];

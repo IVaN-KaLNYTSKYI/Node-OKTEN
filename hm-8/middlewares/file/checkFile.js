@@ -46,8 +46,6 @@ module.exports = (req, res, next) => {
             req.documents = documents;
             req.videos = videos;
             req.photos = photos;
-
-            [req.avatar] = req.photos;
         }
 
         next();
