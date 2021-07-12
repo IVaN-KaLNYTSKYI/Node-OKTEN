@@ -118,15 +118,35 @@ module.exports = {
 
     addAvatar: async (req, res, next) => {
         try {
-            const { avatar, user } = req;
+            const { avatar, user, photos } = req;
+            const photosArr = [];
 
-            const { _id } = user;
+            const { _id, gallery } = user;
+
+            if (gallery) {
+                for (let i = 0; i < gallery.length; i++) {
+                    photosArr.push(gallery[i]);
+                }
+            }
 
             if (avatar) {
                 await fileHelpers.unlinkFileAvatar(req.params.userId);
+
                 const { finalPath, photoPath } = await fileHelpers.fileDownload(avatar.name, _id, 'users', 'avatar');
+
                 await avatar.mv(finalPath);
+
                 await userService.updateUser({ _id }, { avatar: photoPath });
+
+                for (let i = 0; i < photos.length; i++) {
+                    // eslint-disable-next-line no-await-in-loop,no-shadow
+                    const { finalPath, photoPath } = await fileHelpers.fileDownload(photos[i].name, _id, 'users', 'gallery');
+                    // eslint-disable-next-line no-await-in-loop
+                    await photos[i].mv(finalPath);
+
+                    photosArr.push(photoPath);
+                }
+                await userService.updateUser({ _id }, { $set: { gallery: photosArr } });
             }
 
             res.json(user);
