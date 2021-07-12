@@ -4,6 +4,7 @@ const uuid = require('uuid').v1;
 const { promisify } = require('util');
 
 const mkdirPromise = promisify(fs.mkdir);
+const rmdirPromise = promisify(fs.rmdir);
 
 module.exports = {
     fileDownload: async (fileName, itemId, itemType, fileType) => {
@@ -21,40 +22,10 @@ module.exports = {
             photoPath: path.join(pathWithoutStatic, photoName)
         };
     },
-    removeFileAvatar: (fileId) => {
-        const avatar = path.join(process.cwd(), 'static', 'users', fileId, 'avatar');
 
-        fs.rmdir(avatar, { recursive: true }, (err) => err && console.log(err));
+    removeFileID: async (fileId, fileType = '') => {
+        const file = path.join(process.cwd(), 'static', 'users', fileId, fileType);
+
+        await rmdirPromise(file, { recursive: true });
     },
-
-    removeFileGallery: (fileId) => {
-        const gallery = path.join(process.cwd(), 'static', 'users', fileId, 'gallery');
-
-        fs.rmdir(gallery, { recursive: true }, (err) => err && console.log(err));
-    },
-
-    removeFileID: (fileId) => {
-        const file = path.join(process.cwd(), 'static', 'users', fileId);
-
-        fs.rmdir(file, { recursive: true }, (err) => err && console.log(err));
-    },
-
-    unlinkFileAvatar: (fileId) => {
-        const avatar = path.join(process.cwd(), 'static', 'users', fileId, 'avatar');
-        fs.readdir(avatar, (err, files) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-
-            files.forEach((file) => {
-                fs.unlink(`${avatar}/${file}`, (statError) => {
-                    if (statError) {
-                        console.log(statError);
-                    }
-                });
-            });
-        });
-    },
-
 };

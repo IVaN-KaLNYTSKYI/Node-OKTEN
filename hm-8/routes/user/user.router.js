@@ -15,7 +15,7 @@ router.get('/:userId',
     userController.getUserById);
 
 router.delete('/:userId',
-    /* authValid.checkAccessToken, */
+    authValid.checkAccessToken,
     isUserValid.idMiddleware,
     userController.removeUserById);
 

@@ -83,10 +83,8 @@ module.exports = {
         try {
             const { user } = req;
 
-            await userService.removeUser({ _id: req.params.userId });
+            await userService.removeUser(req.params.userId);
 
-            await fileHelpers.removeFileAvatar(req.params.userId);
-            await fileHelpers.removeFileGallery(req.params.userId);
             await fileHelpers.removeFileID(req.params.userId);
 
             await mailService.sendMail(user.email, emailActionEnum.REMOVE, { userName: user.name });
@@ -120,19 +118,14 @@ module.exports = {
     addAvatar: async (req, res, next) => {
         try {
             const { avatar, user, photos } = req;
-            const photosArr = [];
 
             const { _id, gallery } = user;
 
-            if (gallery) {
-                for (let i = 0; i < gallery.length; i++) {
-                    photosArr.push(gallery[i]);
-                }
-            }
+            const photosArr = [...gallery];
+
+            await fileHelpers.removeFileID(req.params.userId, 'avatar');
 
             if (avatar) {
-                await fileHelpers.unlinkFileAvatar(req.params.userId);
-
                 const { finalPath, photoPath } = await fileHelpers.fileDownload(avatar.name, _id, 'users', 'avatar');
 
                 await avatar.mv(finalPath);
@@ -159,17 +152,12 @@ module.exports = {
     addGallery: async (req, res, next) => {
         try {
             const { user, photos } = req;
-            const photosArr = [];
 
             const { _id, gallery } = user;
 
-            if (gallery) {
-                for (let i = 0; i < gallery.length; i++) {
-                    photosArr.push(gallery[i]);
-                }
-            }
+            const photosArr = [...gallery];
 
-            if (photos) {
+            if (photos.length) {
                 for (let i = 0; i < photos.length; i++) {
                     // eslint-disable-next-line no-await-in-loop
                     const { finalPath, photoPath } = await fileHelpers.fileDownload(photos[i].name, _id, 'users', 'gallery');
