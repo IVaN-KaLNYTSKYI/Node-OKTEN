@@ -45,4 +45,8 @@ module.exports = {
         message: ' WRONG_FILE_FORMAT',
         code: 4006
     },
+    ACTIVATE_STATUS_NO_VALID: {
+        message: ' ACTIVATE_STATUS_NO_VALID',
+        code: 4007
+    },
 };
