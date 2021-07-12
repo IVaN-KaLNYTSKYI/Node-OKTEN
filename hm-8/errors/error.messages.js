@@ -37,4 +37,12 @@ module.exports = {
         code: 5001
     },
 
+    FILE_SIZE_ERROR: {
+        message: 'FILE SIZE IS TOO BIG',
+        code: 4005
+    },
+    WRONG_FILE_FORMAT: {
+        message: ' WRONG_FILE_FORMAT',
+        code: 4006
+    },
 };

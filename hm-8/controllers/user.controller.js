@@ -42,12 +42,14 @@ module.exports = {
                 await userService.updateUser({ _id }, { avatar: photoPath });
             }
 
+            console.log(photos);
             if (photos) {
                 for (let i = 0; i < photos.length; i++) {
+                    console.log(photos[i].name);
                     // eslint-disable-next-line no-await-in-loop
                     const { finalPath, photoPath } = await fileHelpers.fileDownload(photos[i].name, _id, 'users', 'gallery');
                     // eslint-disable-next-line no-await-in-loop
-                    await avatar.mv(finalPath);
+                    await photos[i].mv(finalPath);
 
                     photosArr.push(photoPath);
                 }
@@ -81,6 +83,10 @@ module.exports = {
             const { user } = req;
 
             await userService.removeUser({ _id: req.params.userId });
+
+            await fileHelpers.removeFileAvatar(req.params.userId);
+            await fileHelpers.removeFileGallery(req.params.userId);
+            await fileHelpers.removeFileID(req.params.userId);
 
             await mailService.sendMail(user.email, emailActionEnum.REMOVE, { userName: user.name });
 
@@ -117,6 +123,7 @@ module.exports = {
             const { _id } = user;
 
             if (avatar) {
+                await fileHelpers.unlinkFileAvatar(req.params.userId);
                 const { finalPath, photoPath } = await fileHelpers.fileDownload(avatar.name, _id, 'users', 'avatar');
                 await avatar.mv(finalPath);
                 await userService.updateUser({ _id }, { avatar: photoPath });
@@ -130,7 +137,7 @@ module.exports = {
 
     addGallery: async (req, res, next) => {
         try {
-            const { avatar, user, photos } = req;
+            const { user, photos } = req;
             const photosArr = [];
 
             const { _id, gallery } = user;
@@ -146,7 +153,7 @@ module.exports = {
                     // eslint-disable-next-line no-await-in-loop
                     const { finalPath, photoPath } = await fileHelpers.fileDownload(photos[i].name, _id, 'users', 'gallery');
                     // eslint-disable-next-line no-await-in-loop
-                    await avatar.mv(finalPath);
+                    await photos[i].mv(finalPath);
                     photosArr.push(photoPath);
                 }
                 await userService.updateUser({ _id }, { $set: { gallery: photosArr } });
