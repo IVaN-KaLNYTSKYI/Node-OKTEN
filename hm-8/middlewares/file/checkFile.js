@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
 
                 if (fileEnum.PHOTOS_MIMETYPES.includes(mimetype)) {
                     if (size > fileEnum.PHOTO_MAX_SIZE) {
-                        throw new ErrorHandler(codesEnum.BAD_REQUEST,
+                        throw new ErrorHandler(codesEnum.CONFLICT,
                             errorMess.FILE_SIZE_ERROR.message,
                             errorMess.FILE_SIZE_ERROR.code);
                     }
@@ -22,7 +22,7 @@ module.exports = (req, res, next) => {
                     photos.push(files[i]);
                 } else if (fileEnum.VIDEOS_MIMETYPES.includes(mimetype)) {
                     if (size > fileEnum.VIDEO_MAX_SIZE) {
-                        throw new ErrorHandler(codesEnum.BAD_REQUEST,
+                        throw new ErrorHandler(codesEnum.CONFLICT,
                             errorMess.FILE_SIZE_ERROR.message,
                             errorMess.FILE_SIZE_ERROR.code);
                     }
@@ -30,14 +30,14 @@ module.exports = (req, res, next) => {
                     videos.push(files[i]);
                 } else if (fileEnum.DOCS_MIMETYPES.includes(mimetype)) {
                     if (size > fileEnum.FILE_MAX_SIZE) {
-                        throw new ErrorHandler(codesEnum.BAD_REQUEST,
+                        throw new ErrorHandler(codesEnum.CONFLICT,
                             errorMess.FILE_SIZE_ERROR.message,
                             errorMess.FILE_SIZE_ERROR.code);
                     }
 
                     documents.push(files[i]);
                 } else {
-                    throw new ErrorHandler(codesEnum.BAD_REQUEST,
+                    throw new ErrorHandler(codesEnum.CONFLICT,
                         errorMess.WRONG_FILE_FORMAT.message,
                         errorMess.WRONG_FILE_FORMAT.code);
                 }
