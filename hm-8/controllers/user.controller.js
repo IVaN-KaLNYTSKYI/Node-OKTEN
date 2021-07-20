@@ -174,4 +174,32 @@ module.exports = {
         }
     },
 
+    addGoods: async (req, res, next) => {
+        try {
+            const a = await userService.updateUser(req.params.userId, { $push: { basket: req.body.basket } });
+
+            res.json(a);
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    removeGoodsBasket: async (req, res, next) => {
+        try {
+            const { body: { id }, params: { userId } } = req;
+
+            const user = await userService.getSingleUser({ _id: userId });
+
+            const userFilter = user.basket.filter((value) => value !== id);
+
+            const userUpdate = await userService.updateUser(userId, { $set: { basket: userFilter } });
+
+            console.log(userUpdate);
+
+            res.json('update!!!!!!');
+        } catch (e) {
+            next(e);
+        }
+    },
+
 };

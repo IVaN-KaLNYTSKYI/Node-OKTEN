@@ -1,7 +1,9 @@
 const router = require('express').Router();
 
 const { userController } = require('../../controllers');
-const { isUserValid, authValid, fileMiddleware } = require('../../middlewares');
+const {
+    isUserValid, authValid, fileMiddleware, goodsMiddleware
+} = require('../../middlewares');
 
 router.get('/', userController.getAllUsers);
 
@@ -37,5 +39,9 @@ router.post('/:userId/gallery',
     fileMiddleware.checkFile,
     isUserValid.idMiddleware,
     userController.addGallery);
+
+router.post('/:userId/add', goodsMiddleware.addBasket, userController.addGoods);
+
+router.post('/:userId/removeBasket', userController.removeGoodsBasket);
 
 module.exports = router;
